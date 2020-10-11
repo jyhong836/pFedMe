@@ -69,5 +69,36 @@ class pFedMe(Server):
         #print(loss)
         self.save_results()
         self.save_model()
-    
-  
+
+
+class pFedMeLocal(pFedMe):
+    """Not send param to locals."""
+
+    def train(self):
+        loss = []
+        for glob_iter in range(self.num_glob_iters):
+            print("-------------Round number: ", glob_iter, " -------------")
+
+            # Evaluate gloal model on user for each interation
+            print("Evaluate global model")
+            print("")
+            self.evaluate()
+
+            # do update for all users not only selected users
+            for user in self.users:
+                user.train(self.local_epochs)  # * user.train_samples
+
+            # choose several users to send back upated model to server
+            # self.personalized_evaluate()
+            self.selected_users = self.select_users(glob_iter, self.num_users)
+
+            # Evaluate gloal model on user for each interation
+            # print("Evaluate persionalized model")
+            # print("")
+            self.evaluate_personalized_model()
+            # self.aggregate_parameters()
+            self.persionalized_aggregate_parameters()
+
+        # print(loss)
+        self.save_results()
+        self.save_model()

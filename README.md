@@ -44,6 +44,16 @@ This repository does not only implement pFedMe but also FedAvg, and Per-FedAvg a
     python3 main.py --dataset Mnist --model mclr --batch_size 20 --learning_rate 0.005 --num_global_iters 800 --local_epochs 20 --algorithm FedAvg --numusers 5  --times 10
     python3 main.py --dataset Mnist --model mclr --batch_size 20 --learning_rate 0.005 --beta 0.001  --num_global_iters 800 --local_epochs 20 --algorithm PerAvg --numusers 5  --times 10
     </code></pre>
+    
+    ```
+    # local train
+    (@GPU7) python3 main.py --dataset Mnist --model mclr --batch_size 20 --learning_rate 0.005 --personal_learning_rate 0.1 --beta 1 --lamda 15 --num_global_iters 100 --local_epochs 20 --algorithm pFedMeLocal --numusers 5 --times 10
+    (@GPU7) python3 main.py --dataset Mnist --model mclr --batch_size 20 --learning_rate 0.005 --num_global_iters 100 --local_epochs 20 --algorithm FedLocal --numusers 5  --times 10
+    # Fed
+    (@GPU7) python3 main.py --dataset Mnist --model mclr --batch_size 20 --learning_rate 0.005 --personal_learning_rate 0.1 --beta 1 --lamda 15 --num_global_iters 100 --local_epochs 20 --algorithm pFedMe --numusers 5 --times 10
+    (@GPU7) python3 main.py --dataset Mnist --model mclr --batch_size 20 --learning_rate 0.005 --num_global_iters 100 --local_epochs 20 --algorithm FedAvg --numusers 5  --times 10
+    python3 main.py --dataset Mnist --model mclr --batch_size 20 --learning_rate 0.005 --beta 0.001  --num_global_iters 100 --local_epochs 20 --algorithm PerAvg --numusers 5  --times 10
+    ```
   
 - It is noted that each algorithm should be run at least 10 times and then the results are averaged.
 

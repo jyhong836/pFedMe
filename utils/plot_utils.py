@@ -15,6 +15,7 @@ def simple_read_data(alg):
     return rs_train_acc, rs_train_loss, rs_glob_acc
 
 def get_training_data_value(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],beta=[],algorithms_list=[], batch_size=[], dataset="", k= [] , personal_learning_rate = []):
+    print(f"###  num_users {num_users}")
     Numb_Algs = len(algorithms_list)
     train_acc = np.zeros((Numb_Algs, Numb_Glob_Iters))
     train_loss = np.zeros((Numb_Algs, Numb_Glob_Iters))
@@ -148,6 +149,10 @@ def get_max_value_index(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], l
         ), "Index: ", np.argmax(glob_acc[i]), "local update:", loc_ep1[i])
 
 def get_label_name(name):
+    if name.startswith("FedLocal"):
+        return "FedLocal"
+    if name.startswith("pFedMeLocal"):
+        return "pFedMeLocal"
     if name.startswith("pFedMe"):
         if name.startswith("pFedMe_p"):
             return "pFedMe"+ " (PM)"
@@ -412,10 +417,12 @@ def plot_summary_one_figure_mnist_Compare(num_users, loc_ep1, Numb_Glob_Iters, l
     plt.ylabel('Training Loss')
     plt.xlabel('Global rounds')
     #plt.ylim([0.05,  0.6]) # non convex-case
-    plt.ylim([0.19,  0.4]) # convex-case
+    # plt.ylim([0.19,  0.4]) # convex-case
+    plt.ylim([0.19,  0.55]) # convex-case
     plt.gca().yaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # 2 decimal places
-    plt.savefig(dataset.upper() + "Convex_Mnist_train_Com.pdf", bbox_inches="tight")
+    plt.savefig('fig/' + dataset.upper() + "Convex_Mnist_train_Com.pdf", bbox_inches="tight")
     #plt.savefig(dataset.upper() + "Non_Convex_Mnist_train_Com.pdf", bbox_inches="tight")
+    print(f"Save fig => {'fig/'+ dataset.upper() + 'Convex_Mnist_train_Com.pdf'}")
     plt.figure(2,figsize=(5, 5))
     plt.title("$\mu-$"+ "strongly convex")
     # plt.title("Nonconvex") # for non convex case
@@ -428,9 +435,11 @@ def plot_summary_one_figure_mnist_Compare(num_users, loc_ep1, Numb_Glob_Iters, l
     plt.ylabel('Test Accuracy')
     plt.xlabel('Global rounds')
     #plt.ylim([0.84,  0.98]) # non convex-case
-    plt.ylim([0.88,  0.95]) # Convex-case
-    plt.savefig(dataset.upper() + "Convex_Mnist_test_Com.pdf", bbox_inches="tight")
+    # plt.ylim([0.88,  0.95]) # Convex-case
+    plt.ylim([0.85,  0.92]) # Convex-case
+    plt.savefig('fig/' + dataset.upper() + "Convex_Mnist_test_Com.pdf", bbox_inches="tight")
     #plt.savefig(dataset.upper() + "Non_Convex_Mnist_test_Com.pdf", bbox_inches="tight")
+    print(f"Save fig => {'fig/'+ dataset.upper() + 'Convex_Mnist_test_Com.pdf'}")
     plt.close()
 
 def plot_summary_one_figure_mnist_K(num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, beta, algorithms_list, batch_size, dataset, k, personal_learning_rate):
